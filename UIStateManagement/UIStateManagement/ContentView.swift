@@ -19,12 +19,19 @@ enum ViewState {
 struct ContentView: View {
     var body: some View {
         TabView {
-            WithinOwnView()
-            .tabItem {
-                Image(systemName: "1.circle.fill")
-            }
+            CustomWithinView()
+                .tabItem {
+                    Image(systemName: "1.circle.fill")
+                }
             
-            
+            CustomWithVMView()
+                .tabItem {
+                    Image(systemName: "2.circle.fill")
+                }
+            CustomContainerMainView()
+                .tabItem {
+                    Image(systemName: "3.circle.fill")
+                }
         }
     }
 }
@@ -35,34 +42,10 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct WithinOwnView: View {
-    @State private var state: ViewState = .loading
-    
-    var body: some View {
-        ZStack {
-            
-            switch state {
-            case .populated:
-                Text("Populated")
-            
-            case .empty:
-                Text("Empty")
-                
-            case .loading:
-                EmptyView()
-                
-            case .error:
-                Text("Error")
-            }
 
-            if state == .loading {
-                ProgressView()
-            }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(3.0))) {
-                state = .populated
-            }
-        }
-    }
+class CustomViewVMViewModel: ObservableObject {
+    @Published var state: ViewState = .empty
+    
+    
 }
+
