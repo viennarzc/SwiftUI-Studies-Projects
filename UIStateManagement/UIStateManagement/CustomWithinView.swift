@@ -22,21 +22,19 @@ struct CustomWithinView: View {
                 Text("Empty")
                 
             case .loading:
-                EmptyView()
+                ProgressView()
                 
             case .error:
                 Text("Error")
             }
 
-            if state == .loading {
-                ProgressView()
-            }
         }
         .onAppear {
             state = .loading
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(3.0))) {
-                state = .populated
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + .seconds(Int(3.0))) {
+                    state = .populated
             }
         }
         .onDisappear {

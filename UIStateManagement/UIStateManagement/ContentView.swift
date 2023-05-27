@@ -45,7 +45,5 @@ struct ContentView_Previews: PreviewProvider {
 
 class CustomViewVMViewModel: ObservableObject {
     @Published var state: ViewState = .empty
-    
-    
 }
 

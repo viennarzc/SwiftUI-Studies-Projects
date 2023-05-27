@@ -21,14 +21,10 @@ struct CustomWithVMView: View {
                 Text("Empty")
                 
             case .loading:
-                EmptyView()
+                ProgressView()
                 
             case .error:
                 Text("Error")
-            }
-
-            if viewModel.state == .loading {
-                ProgressView()
             }
         }
         .onAppear {

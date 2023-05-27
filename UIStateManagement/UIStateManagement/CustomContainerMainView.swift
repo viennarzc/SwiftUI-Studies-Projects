@@ -11,7 +11,17 @@ struct CustomContainerMainView: View {
     @State private var state: ViewState = .empty
     
     var body: some View {
-        CustomChildView(state: $state)
+        VStack {
+            CustomChildView(state: $state)
+            
+            Button {
+                state = .loading
+            } label: {
+                Text("Parent Button - Start Loading")
+            }
+            .buttonStyle(.borderedProminent)
+
+        }
     }
 }
 
@@ -28,33 +38,41 @@ struct CustomChildView: View {
     var body: some View {
         ZStack {
             
-            switch state {
-            case .populated:
-                Text("Populated")
-            
-            case .empty:
-                Text("Empty")
+            VStack {
+                switch state {
+                case .populated:
+                    Text("Populated")
+                    
+                case .empty:
+                    Text("Empty")
+                    
+                case .loading:
+                    ProgressView()
+                    
+                case .error:
+                    Text("Error")
+                }
                 
-            case .loading:
-                EmptyView()
+                Button {
+                    state = .loading
+                } label: {
+                    Text("Start Loading")
+                }
                 
-            case .error:
-                Text("Error")
-            }
+                Button {
+                    state = .error
+                } label: {
+                    Text("Show Error")
+                }
+                
+                Button {
+                    state = .populated
+                } label: {
+                    Text("Show Populuted")
+                }
 
-            if state == .loading {
-                ProgressView()
             }
-        }
-        .onAppear {
-            state = .loading
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(3.0))) {
-                state = .populated
-            }
-        }
-        .onDisappear {
-            state = .loading
         }
     }
 }
